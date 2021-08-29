@@ -1,28 +1,23 @@
-int parent[1000000];
-void create(int a)
+int mom[N],sze[N];
+int parent(int x)
 {
-    if(parent[a]!=-1)
-    {
-        parent[a]=a;
-    }
-}
-int find_parent(int x)
-{
-    if(parent[x]==x)
-    {
+    if(mom[x]==x)
         return x;
-    }
-    else
-    {
-        return parent[x]=find_parent(parent[x]);
-    }
+    return mom[x]=parent(mom[x]);
 }
-void merge(int a,int b)
+void make(int x)
 {
-    a=find_parent(a);
-    b=find_parent(b);
+    mom[x]=x;
+    sze[x]=1;
+}
+void join(int x,int y)
+{
+    int a=parent(x),b=parent(y);
     if(a!=b)
     {
-        parent[b]=a;
+        if(sze[a]>sze[b])
+            swap(a,b);
+        mom[b]=a;
+        sze[a]+=sze[b];
     }
 }
