@@ -1,23 +1,24 @@
-int mom[N],sze[N];
-int parent(int x)
-{
-    if(mom[x]==x)
-        return x;
-    return mom[x]=parent(mom[x]);
-}
-void make(int x)
-{
-    mom[x]=x;
-    sze[x]=1;
-}
-void join(int x,int y)
-{
-    int a=parent(x),b=parent(y);
-    if(a!=b)
-    {
-        if(sze[a]>sze[b])
-            swap(a,b);
-        mom[b]=a;
-        sze[a]+=sze[b];
+struct DSU{
+    vector<int> parent;
+    vector<int> size;
+    DSU(int n){
+        parent.resize(n, 0);
+        size.resize(n, 0);
+        for(int i=0;i<n;i++){
+            parent[i]=i;
+            size[i]=1;
+        }
     }
-}
+    int find(int x){
+        return parent[x]==x?x:parent[x]=find(parent[x]);
+    }
+    void unite(int x,int y){
+        x=find(x);
+        y=find(y);
+        if(size[x] > size[y]){
+            swap(x,y);
+        }
+        parent[x]=y;
+        size[y]+=size[x];
+    }
+};
